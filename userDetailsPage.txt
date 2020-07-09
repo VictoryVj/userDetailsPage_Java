@@ -1,0 +1,114 @@
+package userDetailsPage;
+import java.util.*;
+
+class user
+{
+	
+	String mailId;
+	String  userName;
+	String  DOB;
+	
+	user(String mailId, String userName, String DOB)
+	{
+		this.mailId = mailId;
+		this.userName = userName;
+		this.DOB = DOB;
+	}
+	
+	void setDetails(String mailId, String userName, String DOB)
+	{
+		this.mailId = mailId;
+		this.userName = userName;
+		this.DOB = DOB;
+	}
+	
+	void display()
+	{
+		System.out.printf("%-15s%-25s%-10s\n",userName,mailId,DOB);
+	}
+	
+}
+
+public class userPage
+{
+	Scanner sc = new Scanner(System.in);
+	mailValidate mail = new mailValidate();
+	DOB_Validate dobValidate = new DOB_Validate();
+	static String Mail,Name,birth;
+	void getMailId()
+	{
+		int check;
+		System.out.println("Enter your MailId");
+		Mail = sc.next();
+		check = mail.validate(Mail);
+		if(check == 0)
+		{
+			System.out.println("Invalid MailId."+"\n"+"Enter a valid one");
+			getMailId();
+			
+		}
+	}
+	
+	void getUserName()
+	{
+		System.out.println("Enter your userName : ");
+		Name = sc.next();
+	}
+	
+	public void getDOB()
+	{
+		int checkDate;
+		System.out.println("Enter your Date Of Birth : ");
+		birth = sc.next();
+		checkDate = dobValidate.ValidateDOB(birth);
+		if(checkDate == 0)
+		{ 
+			System.out.println("Invalid Date."+"\n"+"Enter a valid one");
+			getDOB();
+		}
+	}
+	
+	public static void main(String str[])
+	{
+		
+		int userCount,size2;
+		
+		Scanner s =new Scanner(System.in);
+		userCount = s.nextInt();
+		userPage user1 = new userPage();
+		user[] users = new user[userCount];
+		for(int loop=0;loop<userCount;loop++)
+		{
+			user1.getMailId();
+			user1.getUserName();
+			user1.getDOB();
+			users[loop] = new user(Mail,Name,birth);
+			users[loop].setDetails(Mail, Name, birth);
+		}
+		System.out.println("UserName\t  Email\t\t\t  DOB");
+		System.out.println("--------\t  -----\t\t\t  ---");
+		for(int loop=0;loop<userCount;loop++)
+		{
+			users[loop].display();
+		}
+		//s.close();
+		
+		size2 = s.nextInt();
+		user[] increasedSize = Arrays.copyOf(users,userCount+size2);
+		
+		for(int loop=userCount;loop<userCount+size2;loop++)
+		{
+			user1.getMailId();
+			user1.getUserName();
+			user1.getDOB();
+			increasedSize[loop] = new user(Mail,Name,birth);
+			increasedSize[loop].setDetails(Mail, Name, birth);
+		}
+		System.out.println("UserName\t  Email\t\t\t  DOB");
+		System.out.println("--------\t  -----\t\t\t  ---");
+		for(int loop=0;loop<userCount+size2;loop++)
+		{
+			increasedSize[loop].display();
+		}
+	}
+}
